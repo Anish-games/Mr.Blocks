@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     private float horizontalInput, verticalInput;
 
-    public float speed;
+    public float speed = 5f;
 
     private void Update()
     {
