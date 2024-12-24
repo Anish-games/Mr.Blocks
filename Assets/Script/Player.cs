@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public LevelManager levelManager; 
     private float horizontalInput, verticalInput;
     private Rigidbody2D rb;
     public float speed = 5f;
 
-    void Start() 
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //This code finds the Rigidbody2D component on the same GameObject and stores a reference to it in the rb variable.
     }
@@ -38,26 +39,30 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))  // Collision2D other: This provides information about another game object that has collided with the Player game object.
         {
             Debug.Log(gameObject.name + " Collided with: " + other.gameObject.name);
-            //PlayerDie();             // other.gameObject.name: This gives you the name of the other object involved in the interaction.
+            PlayerDie();             // other.gameObject.name: This gives you the name of the other object involved in the interaction.
         }
     }
-    private void PlayerDie()
-    {
-        Destroy(gameObject);
-    }
-
     private void OnTriggerEnter2D(Collider2D other)  // Trigger & collider.
     {
-        if (other.gameObject.CompareTag("Finish") )    // finishing the level.
+        if (other.gameObject.CompareTag("Finish"))    // finishing the level.
         {
             LevelComplete();
         }
     }
+
+
+    private void PlayerDie()
+    {
+        levelManager.OnPlayerDeath();
+        Destroy(gameObject);
+    }
+
+    
     private void LevelComplete()
     {
-        {
-            Debug.Log("Level Complete!");
-        }
+        levelManager.OnLevelComplete();
+        gameObject.SetActive(false);
     }
+
 
 }
