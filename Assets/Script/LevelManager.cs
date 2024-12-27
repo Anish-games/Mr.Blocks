@@ -4,13 +4,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
-{ 
-    
+{
+    public LevelUI levelUI;
     private int currentSceneIndex;
+    private const int mainMenuIndex = 0;
 
-    private void Start() => currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    private SoundManager soundManager;
 
-    public void OnLevelComplete() => LoadNextLevel();
+    private void Start()
+    {
+        soundManager = SoundManager.Instance;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        soundManager.PlayBackgroundMusic();
+    }
+
+    public void OnLevelComplete()
+    {
+        LoadNextLevel();
+    }
 
     private void LoadNextLevel()
     {
@@ -20,15 +31,26 @@ public class LevelManager : MonoBehaviour
         if (nextSceneIndex < totalNumberOfScenes)
         {
             SceneManager.LoadScene(nextSceneIndex);
+            Debug.Log("Next Level get load");
         }
         else
         {
-            Debug.Log("You've completed all levels!");
+            levelUI.ShowGameWinUI();
+            Debug.Log("showing wining screen");
         }
     }
 
-    public void OnPlayerDeath() => RestartLevel();
+    public void OnPlayerDeath()
+    {
+        levelUI.ShowGameLoseUI();
+        Debug.Log("calling the function of show loose UI");
+    }
 
-    public void RestartLevel() => SceneManager.LoadScene(currentSceneIndex);
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(currentSceneIndex);
+        Debug.Log("Restarted the level");
+    }
+
+    public void LoadMainMenu() => SceneManager.LoadScene(mainMenuIndex);
 }
-
