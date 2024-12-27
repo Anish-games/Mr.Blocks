@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-
 
 public class LevelManager : MonoBehaviour
 {
@@ -11,15 +9,19 @@ public class LevelManager : MonoBehaviour
     private int currentSceneIndex;
     private const int mainMenuIndex = 0;
 
+    private SoundManager soundManager;
+
     private void Start()
-    { 
+    {
+        soundManager = SoundManager.Instance;
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        soundManager.PlayBackgroundMusic();
     }
 
-    public void OnLevelComplete() 
-    { 
+    public void OnLevelComplete()
+    {
         LoadNextLevel();
-    } 
+    }
 
     private void LoadNextLevel()
     {
@@ -42,14 +44,13 @@ public class LevelManager : MonoBehaviour
     {
         levelUI.ShowGameLoseUI();
         Debug.Log("calling the function of show loose UI");
-    } 
+    }
 
     public void RestartLevel()
     {
         SceneManager.LoadScene(currentSceneIndex);
-        Debug.Log("Restarted the level ");
+        Debug.Log("Restarted the level");
     }
 
     public void LoadMainMenu() => SceneManager.LoadScene(mainMenuIndex);
 }
-

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    private SoundManager soundManager;
     public Button playButton;
     public Button quitButton;
 
@@ -15,6 +16,7 @@ public class MainMenuUI : MonoBehaviour
     private void Awake()
     {
         AddListeners();
+        soundManager = FindObjectOfType<SoundManager>();
     }
 
     private void AddListeners()
@@ -25,11 +27,14 @@ public class MainMenuUI : MonoBehaviour
 
     public void Play()
     {
+        soundManager.PlayButtonClickAudio();
+        soundManager.DestroySoundManager();
         SceneManager.LoadScene(firstLevel);  // Load the first level
     }
 
     public void Quit()
     {
+        soundManager.PlayButtonClickAudio();
         Application.Quit();  // Quit the game
         Debug.Log("Game quit"); // Unity doesn't quit in the editor, so we log it
     }
