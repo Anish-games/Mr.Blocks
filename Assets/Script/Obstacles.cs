@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obstacles : MonoBehaviour
 
 {
-    private float rotationAngle = 30f;
+    public float rotationAngle = 30f;
 
     // Start is called before the first frame update
     void Start()
