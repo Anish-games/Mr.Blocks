@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public LevelManager levelManager; 
+    public LevelManager levelManager;
+    private SoundManager soundManager;
     private float horizontalInput, verticalInput;
     private Rigidbody2D rb;
     public float speed = 5f;
@@ -12,6 +13,11 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); //This code finds the Rigidbody2D component on the same GameObject and stores a reference to it in the rb variable.
+        soundManager = FindObjectOfType<SoundManager>();
+        if (soundManager == null)
+        {
+            Debug.LogError("SoundManager not found in the scene.");
+        }
     }
     private void Update()
     {
@@ -53,16 +59,19 @@ public class Player : MonoBehaviour
 
     private void PlayerDie()
     {
+        soundManager.PlayGameOverAudio();
         levelManager.OnPlayerDeath();
         Destroy(gameObject);
     }
 
-    
+
     private void LevelComplete()
     {
+        soundManager.PlayLevelCompleteAudio();
         levelManager.OnLevelComplete();
         gameObject.SetActive(false);
     }
+
 
 
 }
